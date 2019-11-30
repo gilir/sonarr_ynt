@@ -1,27 +1,25 @@
 {
-    "name": "YunoHost example app",
-    "id": "ynhexample",
+    "name": "Sonarr",
+    "id": "sonarr",
     "packaging_format": 1,
     "description": {
-        "en": "Explain in *a few (10~15) words* the purpose of the app or what it actually does (it is meant to give a rough idea to users browsing a catalog of 100+ apps)",
-        "fr": "Expliquez en *quelques* (10~15) mots l'utilité de l'app ou ce qu'elle fait (l'objectif est de donner une idée grossière pour des utilisateurs qui naviguent dans un catalogue de 100+ apps)"
+        "en": "Smart PVR for newsgroup and bittorrent users.",
+        "fr": "Utilitaire intéligent pour les utilisateurs de newsgroup ou de bittorent"
     },
-    "version": "1.0~ynh1",
-    "url": "https://example.com",
+    "version": "v2.0.0.5338~ynh1",
+    "url": "https://sonarr.tv",
     "license": "free",
     "maintainer": {
-        "name": "John doe",
-        "email": "john.doe@example.com",
-        "url": "http://example.com"
+        "name": "Julien Lavergne",
+        "email": "gilir@ubuntu.com",
+        "url": "https://me.lavergne.online"
     },
     "requirements": {
         "yunohost": ">= 3.5"
     },
     "multi_instance": true,
     "services": [
-        "nginx",
-        "php7.0-fpm",
-        "mysql"
+        "nginx"
     ],
     "arguments": {
         "install" : [
@@ -29,8 +27,8 @@
                 "name": "domain",
                 "type": "domain",
                 "ask": {
-                    "en": "Choose a domain name for ynhexample",
-                    "fr": "Choisissez un nom de domaine pour ynhexample"
+                    "en": "Choose a domain name for Sonarr",
+                    "fr": "Choisissez un nom de domaine pour Sonarr"
                 },
                 "example": "example.com"
             },
@@ -38,20 +36,21 @@
                 "name": "path",
                 "type": "path",
                 "ask": {
-                    "en": "Choose a path for ynhexample",
-                    "fr": "Choisissez un chemin pour ynhexample"
+                    "en": "Choose a path for Sonarr",
+                    "fr": "Choisissez un chemin pour Sonarr"
                 },
-                "example": "/example",
-                "default": "/example"
+                "example": "/sonarr",
+                "default": "/sonarr"
             },
             {
-                "name": "admin",
-                "type": "user",
+                "name": "datadir",
+                "type": "path",
                 "ask": {
-                    "en": "Choose an admin user",
-                    "fr": "Choisissez l’administrateur"
+                    "en": "Choose a custome path for the data of Sonarr",
+                    "fr": "Choisissez un chemin spécifique pour les données de Sonarr"
                 },
-                "example": "johndoe"
+                "example": "/media/data/sonarr",
+                "default": "/"
             },
             {
                 "name": "is_public",
@@ -60,30 +59,7 @@
                     "en": "Is it a public application?",
                     "fr": "Est-ce une application publique ?"
                 },
-                "default": true
-            },
-            {
-                "name": "language",
-                "type": "string",
-                "ask": {
-                    "en": "Choose the application language",
-                    "fr": "Choisissez la langue de l'application"
-                },
-                "choices": ["fr", "en"],
-                "default": "fr"
-            },
-            {
-                "name": "password",
-                "type": "password",
-                "ask": {
-                    "en": "Set the administrator password",
-                    "fr": "Définissez le mot de passe administrateur"
-                },
-                "help": {
-                    "en": "Use the help field to add an information for the admin about this question.",
-                    "fr": "Utilisez le champ aide pour ajouter une information à l'intention de l'administrateur à propos de cette question."
-                },
-                "example": "Choose a password"
+                "default": false
             }
         ]
     }

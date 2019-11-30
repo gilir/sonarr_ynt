@@ -1,7 +1,4 @@
 # Usage of this package (REMOVE THIS SECTION BEFORE RELEASE)
-- Copy this app before working on it.
-- Edit `conf/nginx.conf` file to match application prerequisites.
-- Edit `manifest.json` with application specific information.
 - Edit the `install`, `upgrade`, `remove`, `backup`, and `restore` scripts.
   - Using the [script helpers documentation.](https://helpers.yunohost.org/)
 - Add a `LICENSE` file for the package.
@@ -9,12 +6,12 @@
 
 # Example app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/REPLACEBYYOURAPP.svg)](https://dash.yunohost.org/appci/app/REPLACEBYYOURAPP)  
+[![Integration level](https://dash.yunohost.org/integration/REPLACEBYYOURAPP.svg)](https://dash.yunohost.org/appci/app/REPLACEBYYOURAPP)
 [![Install REPLACEBYYOURAPP with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=REPLACEBYYOURAPP)
 
 *[Lire ce readme en français.](./README_fr.md)*
 
-> *This package allow you to install REPLACEBYYOURAPP quickly and simply on a YunoHost server.  
+> *This package allow you to install REPLACEBYYOURAPP quickly and simply on a YunoHost server.
 If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
 
 ## Overview
@@ -59,7 +56,7 @@ Can the app be used by multiple users?
 
 * Other information you would add about this application
 
-**More information on the documentation page:**  
+**More information on the documentation page:**
 https://yunohost.org/packaging_apps
 
 ## Links

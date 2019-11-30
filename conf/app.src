@@ -1,5 +1,5 @@
-SOURCE_URL=url of app's source
-SOURCE_SUM=sha256 checksum
+SOURCE_URL=http://download.sonarr.tv/v2/master/mono/NzbDrone.master.2.0.0.5338.mono.tar.gz
+SOURCE_SUM=7d3c99f4b4aa72c489b63a815b5a27d5b66032a3e847125800b598131aa18716
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
