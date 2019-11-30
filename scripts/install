@@ -71,7 +71,6 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=datadir --value=$datadir
 ynh_app_setting_set --app=$app --key=is_public --value=$is_public
-ynh_app_setting_set --app=$app --key=language --value=$language
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -154,7 +153,6 @@ ynh_add_nginx_config
 ynh_script_progression --message="Configuring system user..." --time --weight=1
 
 # Create a system user
-# TODO Create user with     
 if [ "$datadir" != "/" ]
 	ynh_system_user_create --username=$app --home_dir=datadir
 else
