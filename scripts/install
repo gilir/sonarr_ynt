@@ -153,7 +153,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Configuring system user..." --time --weight=1
 
 # Create a system user
-if [ "$datadir" != "/" ]
+if [ "$datadir" != "/" ]; then
 	ynh_system_user_create --username=$app --home_dir=datadir
 else
 	ynh_system_user_create --username=$app

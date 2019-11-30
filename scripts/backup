@@ -83,10 +83,11 @@ ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
 #=================================================
 # BACKUP DATADIR
 #=================================================
-if [ "$datadir" != "/" ]
+if [ "$datadir" != "/" ]; then
 	ynh_backup --src_path="$datadir"
 else
 	ynh_backup --src_path="/home/$app"
+fi
 
 #=================================================
 # BACKUP LOGROTATE
