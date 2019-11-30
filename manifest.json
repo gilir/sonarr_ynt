@@ -6,9 +6,9 @@
         "en": "Smart PVR for newsgroup and bittorrent users.",
         "fr": "Utilitaire intéligent pour les utilisateurs de newsgroup ou de bittorent"
     },
-    "version": "v2.0.0.5338~ynh2",
+    "version": "v2.0.0.5338~ynh3",
     "url": "https://sonarr.tv",
-    "license": "free",
+    "license": "GPL-3.0-or-later",
     "maintainer": {
         "name": "Julien Lavergne",
         "email": "gilir@ubuntu.com",
