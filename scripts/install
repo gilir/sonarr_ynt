@@ -84,8 +84,13 @@ ynh_script_progression --message="Configuring firewall..." --time --weight=1
 ### If you're not using these lines:
 ###		- Remove the section "CLOSE A PORT" in the remove script
 
+#TODO test if it's work if the port is modified in the config.xml
 # Find a free port
-port=$(ynh_find_port --port=8989)
+port=$(ynh_find_port 8989)
+if [ $port -gt 8989 ]
+then
+	ynh_die "The port 8989 is already in use. Sonarr can't works on another port. Please try to free one of this ports."
+fi
 # Open this port
 ynh_exec_warn_less yunohost firewall allow --no-upnp TCP $port
 ynh_app_setting_set --app=$app --key=port --value=$port
