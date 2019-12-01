@@ -234,14 +234,6 @@ ynh_add_systemd_config
 ### 	ynh_app_setting_delete --app=$app --key=skipped_uris
 ### fi
 
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-
-### `ynh_replace_string` is used to replace a string in a file.
-### (It's compatible with sed regular expressions syntax)
-
-ynh_replace_string --match_string="<UrlBase></UrlBase>" --replace_string="<UrlBase>/$app</UrlBase>" --target_file="$final_path/data/config.xml"
 
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
@@ -318,6 +310,17 @@ ynh_script_progression --message="Starting a systemd service..." --time --weight
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+### `ynh_replace_string` is used to replace a string in a file.
+### (It's compatible with sed regular expressions syntax)
+
+ynh_replace_string --match_string="<UrlBase></UrlBase>" --replace_string="<UrlBase>/$app</UrlBase>" --target_file="$final_path/data/config.xml"
+
+ynh_systemd_action --service_name=$app --action="restart"
 
 #=================================================
 # SETUP FAIL2BAN
