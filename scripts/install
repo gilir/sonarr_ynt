@@ -200,7 +200,7 @@ else
 	configdir=$final_path
 fi
 ynh_replace_string --match_string="__DATADIR__" --replace_string="$configdir" --target_file="../conf/systemd.service"
-mkdir -d "$configdir/data"
+mkdir -p "$configdir/data"
 cp ../conf/config.xml "$configdir/data"
 chown -R $app:$app "$configdir"
 chmod u=rwX,g=rX,o= "$configdir"
