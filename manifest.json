@@ -6,7 +6,7 @@
         "en": "Smart PVR for newsgroup and bittorrent users.",
         "fr": "Utilitaire intéligent pour les utilisateurs de newsgroup ou de bittorent"
     },
-    "version": "2.0.0.5338~ynh17",
+    "version": "2.0.0.5338~ynh18",
     "url": "https://sonarr.tv",
     "license": "GPL-3.0-or-later",
     "maintainer": {
