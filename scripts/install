@@ -195,9 +195,9 @@ fi
 ynh_replace_string --match_string="<UrlBase></UrlBase>" --replace_string="<UrlBase>/$app</UrlBase>" --target_file="../conf/config.xml"
 
 if [ "$datadir" != "/" ]; then
-	$configdir = $datadir
+	$configdir=$datadir
 else
-	$configdir = $final_path
+	$configdir=$final_path
 fi
 ynh_replace_string --match_string="__DATADIR__" --replace_string="$configdir" --target_file="../conf/systemd.service"
 mkdir -d "$configdir/data"
