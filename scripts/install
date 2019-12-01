@@ -186,8 +186,24 @@ fi
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# ...
+# CREATE THE CONFIG DIRECTORY & FILE
 #=================================================
+
+### `ynh_replace_string` is used to replace a string in a file.
+### (It's compatible with sed regular expressions syntax)
+
+ynh_replace_string --match_string="<UrlBase></UrlBase>" --replace_string="<UrlBase>/$app</UrlBase>" --target_file="../conf/config.xml"
+
+if [ "$datadir" != "/" ]; then
+	$configdir = $datadir
+else
+	$configdir = $final_path
+fi
+ynh_replace_string --match_string="__DATADIR__" --replace_string="$configdir" --target_file="../conf/systemd.service"
+mkdir -d "$configdir/data"
+cp ../conf/config.xml "$configdir/data"
+chown -R $app:$app "$configdir"
+chmod u=rwX,g=rX,o= "$configdir"
 
 #=================================================
 # SETUP SYSTEMD
@@ -314,19 +330,6 @@ ynh_script_progression --message="Starting a systemd service..." --time --weight
 ###		- And the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the change_url script
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
-
-#=================================================
-# MODIFY A CONFIG FILE
-#=================================================
-
-### `ynh_replace_string` is used to replace a string in a file.
-### (It's compatible with sed regular expressions syntax)
-
-ynh_systemd_action --service_name=$app --action="stop"
-
-ynh_replace_string --match_string="<UrlBase></UrlBase>" --replace_string="<UrlBase>/$app</UrlBase>" --target_file="$final_path/data/config.xml"
-
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
