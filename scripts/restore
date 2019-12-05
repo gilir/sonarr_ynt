@@ -31,7 +31,9 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 datadir=$(ynh_app_setting_get --app=$app --key=datadir)
+datadir_final=$(ynh_app_setting_get --app=$app --key=datadir_final)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -42,12 +44,15 @@ ynh_webpath_available --domain=$domain --path_url=$path_url \
 	|| ynh_die --message="Path not available: ${domain}${path_url}"
 test ! -d $final_path \
 	|| ynh_die --message="There is already a directory: $final_path "
+test ! -d $datadir_final \
+	|| ynh_die --message="There is already a directory: $datadir_final "
 
 #=================================================
 # STANDARD RESTORATION STEPS
 #=================================================
 # RESTORE THE NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Restoring the nginx configuration..." --time --weight=1
 
 ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
@@ -59,38 +64,26 @@ ynh_script_progression --message="Restoring the app main directory..." --time --
 ynh_restore_file --origin_path="$final_path"
 
 #=================================================
+# RESTORE THE DATADIR DIR
+#=================================================
+ynh_script_progression --message="Restoring the data directory..." --time --weight=1
+
+ynh_restore_file --origin_path="$datadir_final"
+
+#=================================================
 # RECREATE THE DEDICATED USER
 #=================================================
 ynh_script_progression --message="Recreating the dedicated system user..." --time --weight=1
 
 # Create the dedicated user (if not existing)
-if [ "$datadir" != "/" ]; then
-	ynh_system_user_create --username=$app --home_dir=datadir
-else
-	ynh_system_user_create --username=$app
-fi
+ynh_system_user_create --username=$app
 
 #=================================================
 # RESTORE USER RIGHTS
 #=================================================
 
 # Restore permissions on app files
-chown -R root: $final_path
-
-#=================================================
-# RESTORE THE PHP-FPM CONFIGURATION
-#=================================================
-
-### ynh_restore_file --origin_path="/etc/php/7.0/fpm/pool.d/$app.conf"
-
-#=================================================
-# RESTORE FAIL2BAN CONFIGURATION
-#=================================================
-### ynh_script_progression --message="Restoring the fail2ban configuration..." --time --weight=1
-
-### ynh_restore_file "/etc/fail2ban/jail.d/$app.conf"
-### ynh_restore_file "/etc/fail2ban/filter.d/$app.conf"
-### ynh_systemd_action --action=restart --service_name=fail2ban
+setup_permissions
 
 #=================================================
 # SPECIFIC RESTORATION
@@ -103,15 +96,6 @@ ynh_script_progression --message="Reinstalling dependencies..." --time --weight=
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
-# RESTORE THE MYSQL DATABASE
-#=================================================
-#ynh_script_progression --message="Restoring the MySQL database..." --time --weight=1
-
-#db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-#ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-#ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
-
-#=================================================
 # RESTORE SYSTEMD
 #=================================================
 ynh_script_progression --message="Restoring the systemd configuration..." --time --weight=1
@@ -120,20 +104,12 @@ ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
 systemctl enable $app.service
 
 #=================================================
-# RESTORE DATADIR
-#=================================================
-
-if [ "$datadir" != "/" ]; then
-	ynh_restore_file --origin_path="$datadir"
-else
-	ynh_restore_file --origin_path="/home/$app"
-fi
-
-#=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
+ynh_script_progression --message="Advertise service in admin panel..." --time --weight=1
 
 yunohost service add $app --log "/var/log/$app/$app.log"
+yunohost service add $app --description "$app daemon" --log "/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -141,12 +117,6 @@ yunohost service add $app --log "/var/log/$app/$app.log"
 ynh_script_progression --message="Starting a systemd service..." --time --weight=1
 
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
-
-#=================================================
-# RESTORE THE CRON FILE
-#=================================================
-
-ynh_restore_file --origin_path="/etc/cron.d/$app"
 
 #=================================================
 # RESTORE THE LOGROTATE CONFIGURATION
@@ -157,11 +127,10 @@ ynh_restore_file --origin_path="/etc/logrotate.d/$app"
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
-# RELOAD NGINX AND PHP-FPM
+# RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server and php-fpm..." --time --weight=1
+ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
 
-ynh_systemd_action --service_name=php7.0-fpm --action=reload
 ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================

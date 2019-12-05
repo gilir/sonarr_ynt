@@ -6,7 +6,7 @@
         "en": "Smart PVR for newsgroup and bittorrent users.",
         "fr": "Utilitaire intéligent pour les utilisateurs de newsgroup ou de bittorent"
     },
-    "version": "2.0.0.5338~ynh29",
+    "version": "2.0.0.5338~ynh30",
     "url": "https://sonarr.tv",
     "license": "GPL-3.0-or-later",
     "maintainer": {
@@ -36,8 +36,8 @@
                 "name": "path",
                 "type": "path",
                 "ask": {
-                    "en": "Choose a path for Sonarr",
-                    "fr": "Choisissez un chemin pour Sonarr"
+                    "en": "Choose a path for the installation of Sonarr",
+                    "fr": "Choisissez un chemin d'installation'pour Sonarr"
                 },
                 "example": "/sonarr",
                 "default": "/sonarr"
@@ -51,15 +51,6 @@
                 },
                 "example": "/media/data/sonarr",
                 "default": "/"
-            },
-            {
-                "name": "is_public",
-                "type": "boolean",
-                "ask": {
-                    "en": "Is it a public application?",
-                    "fr": "Est-ce une application publique ?"
-                },
-                "default": false
             }
         ]
     }
