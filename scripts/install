@@ -41,7 +41,7 @@ test ! -e "$final_path" || ynh_die --message="The installation path $final_path 
 if [ "$datadir" != "/" ]; then
 	datadir_final="$datadir/data"
 else
-	datadir_final="$final_path/data"
+	datadir_final="/opt/data/$app"
 fi
 test ! -e "$datadir_final" || ynh_die --message="The data directory path $datadir_final already contains a folder"
 
