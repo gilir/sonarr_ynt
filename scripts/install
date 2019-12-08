@@ -123,6 +123,9 @@ cp ../conf/config.xml "$datadir_final"
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --time --weight=1
 
+# Create the directories for the logs
+mkdir -p "/var/log/$app"
+
 # Set the datadir on startup
 ynh_replace_string --match_string="__DATADIR__" --replace_string="$datadir_final" --target_file="../conf/systemd.service"
 ynh_add_systemd_config
